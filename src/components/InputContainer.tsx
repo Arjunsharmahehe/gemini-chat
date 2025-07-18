@@ -30,7 +30,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
             />
 
           <div className='flex items-center justify-between gap-2 pb-2 px-3'>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center flex-wrap gap-2'>
 
               <select
                 className='w-fit p-2 text-sm rounded text-white hover:bg-neutral-900/30'
@@ -55,7 +55,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
                   </select>
               )}
 
-            <input type='password' className='w-full p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600' placeholder='Enter your API key' value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+            <input type='password' className='w-fit min-w-[60px] p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600' placeholder='Enter your API key' value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
             
             </div>
             <button
