@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { aiModels, type ModelStruct } from "../../constants";
-import { ArrowUp, Save } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useModelContext } from "../context/ModelContext";
 
 export default function InputContainer({ value, onChange, onSubmit }: { value?: string; onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void; }) {
