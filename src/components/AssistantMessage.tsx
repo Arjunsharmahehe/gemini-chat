@@ -2,7 +2,6 @@ import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown'
 import { useState } from 'react';
 import { Check, Copy } from "lucide-react";
-import { useModelContext } from '../context/ModelContext';
 
 export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string }) {
 
@@ -24,7 +23,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
 
   const [ isCopied, setIsCopied ] = useState(false)
 
-  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : "text-neutral-50";
+  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : "text-neutral-50";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content).then(() => {
