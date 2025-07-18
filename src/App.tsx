@@ -19,7 +19,7 @@ type MessageType = {
 
 function App() {
 
-  const chatEndRef = useRef<HTMLDivElement>();
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [input, setInput] = useState('');

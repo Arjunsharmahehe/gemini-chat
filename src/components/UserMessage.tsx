@@ -1,7 +1,7 @@
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
-export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement> }) {
+export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
   
   const [ isCopied, setIsCopied ] = useState(false)
 

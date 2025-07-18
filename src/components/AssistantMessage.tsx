@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Check, Copy } from "lucide-react";
 import { useModelContext } from '../context/ModelContext';
 
-export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement>; mode: string }) {
+export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string }) {
 
     const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
