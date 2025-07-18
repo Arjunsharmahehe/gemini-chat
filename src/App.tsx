@@ -68,16 +68,18 @@ function App() {
       };
       
       let systemPrompt = systemPrompts.assistant
-      if ( selectedModel === 'gemini-2.0-flash' || selectedModel === 'gemini-2.0-flash-lite'){
-        if ( selectedMode === 'Bro' ){
-          systemPrompt = systemPrompts.bro
-        } else if ( selectedMode === 'Developer' ) {
-          systemPrompt = systemPrompts.developer
-        } else if ( selectedMode === 'Boyfriend' ) {
-          systemPrompt = systemPrompts.boyfriend
-        } else if ( selectedMode === 'Girlfriend' ) {
-          systemPrompt = systemPrompts.girlfriend
-        }
+      if ( selectedMode === 'Bro' ){
+        systemPrompt = systemPrompts.bro
+      } else if ( selectedMode === 'Developer' ) {
+        systemPrompt = systemPrompts.developer
+      } else if ( selectedMode === 'Boyfriend' ) {
+        systemPrompt = systemPrompts.boyfriend
+      } else if ( selectedMode === 'Girlfriend' ) {
+        systemPrompt = systemPrompts.girlfriend
+      } else if ( selectedMode === 'Kitten' ) {
+        systemPrompt = systemPrompts.kitten
+      } else if ( selectedMode === 'Mukesh' ) {
+        systemPrompt = systemPrompts.mukesh
       }
 
       // config.systemPrompt = [{text: systemPrompt}]

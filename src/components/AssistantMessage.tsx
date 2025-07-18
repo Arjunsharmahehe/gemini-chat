@@ -23,13 +23,6 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
   };
 
   const [ isCopied, setIsCopied ] = useState(false)
-  const { setSelectedMode } = useModelContext()
-
-  if ( model !== "gemini-2.0-flash" && model !== "gemini-2.0-flash-lite"){
-    if ( mode !== "Assistant"){
-      setSelectedMode("Assistant")
-    }
-  }
 
   const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : "text-neutral-50";
 

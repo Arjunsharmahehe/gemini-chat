@@ -1,7 +1,26 @@
+import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown'
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
 export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
+  
+  const markdownComponents: Components = {
+    h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
+    // Target h2 tags
+    h2: ({ node, ...props }) => <h2 className='text-lg font-medium mt-4 mb-2' {...props} />,
+    // Target p tags
+    p: ({ node, ...props }) => <p className='mb-2 text-sm font-normal' {...props} />,
+    // Target ul tags
+    ul: ({ node, ...props }) => <ul className='text-sm list-disc list-inside pl-4 mb-2' {...props} />,
+    // Target ol tags
+    ol: ({ node, ...props }) => <ol className='text-sm list-decimal list-inside pl-4 mb-2' {...props} />,
+    // Target inline code
+    code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
+    // Target code blocks
+    pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 rounded-md border-2 border-purple-950 p-3 my-2 overflow-x-auto' {...props} />,
+  };
+  
   
   const [ isCopied, setIsCopied ] = useState(false)
 
@@ -23,7 +42,9 @@ export default function UserMessage({ content, model, timestamp, chatEndRef }: {
         <span className="font-semibold">User</span>
         <span className="text-neutral-600">to: {model}</span>
       </div>
-      <div className='text-wrap text-sm'>{content}</div>
+      <ReactMarkdown components={markdownComponents}>
+          {content}
+      </ReactMarkdown>
       <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
         <span>{timestamp.toLocaleTimeString()}</span>
 
