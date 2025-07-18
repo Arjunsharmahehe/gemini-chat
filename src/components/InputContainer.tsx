@@ -22,12 +22,19 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
   return (
       <form ref={formRef} onSubmit={onSubmit} className='px-2 pt-2 rounded-t-xl bg-purple-950/10 border-t-2 border-l-2 border-r-2 border-purple-950/50'>
         <div className='bg-neutral-950 border-t-2 border-r-2 border-l-2 border-neutral-900 text-neutral-50 rounded-t-lg'>
-
-          <textarea className='w-full resize-none bg-transparent text-sm leading-6 text-foreground outline-none placeholder:text-neutral-600 disabled:opacity-0 px-3 py-2'
-                    placeholder='Type your message here...' 
-                    value={value} onChange={onChange} 
-                    onKeyDown={handleKeyDown}
-            />
+          <div className='flex justify-between items-baseline px-3 pt-2'>
+            <textarea className='w-full resize-none bg-transparent text-sm leading-6 text-foreground outline-none placeholder:text-neutral-600 disabled:opacity-0 px-3 py-2'
+                      placeholder='Type your message here...' 
+                      value={value} onChange={onChange} 
+                      onKeyDown={handleKeyDown}
+              />
+            <button
+              type='submit'
+              className='mt-2 p-2 border-2 border-purple-950 text-white rounded relative overflow-hidden bg-purple-950/40 hover:bg-purple-950/60 hover:border-purple-900'
+            >
+              <ArrowUp className='size-4 relative z-10'/>
+            </button>
+          </div>
 
           <div className='flex items-center justify-between gap-2 pb-2 px-3'>
             <div className='flex items-center flex-wrap gap-2'>
@@ -58,12 +65,6 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
             <input type='password' className='w-fit min-w-[60px] p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600' placeholder='Enter your API key' value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
             
             </div>
-            <button
-              type='submit'
-              className='mt-2 p-2 border-2 border-purple-950 text-white rounded relative overflow-hidden bg-purple-950/40 hover:bg-purple-950/60 hover:border-purple-900'
-            >
-              <ArrowUp className='size-4 relative z-10'/>
-            </button>
           </div>
         </div>
       </form>
