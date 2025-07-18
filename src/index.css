@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+*::-webkit-scrollbar {
+  width: 4px; /* Width of vertical scrollbar */
+  height: 4px; /* Height of horizontal scrollbar */
+}
+
+/* Target the thumb (the draggable part) */
+*::-webkit-scrollbar-thumb {
+  background-color: #171717; /* Color of the thumb */
+  border-radius: 5px; /* Roundness of the thumb */
+}
+
+/* Target the thumb when it's hovered */
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #1a1a1a; /* Color of the thumb on hover */
+}
+
+/* Target the track */
+*::-webkit-scrollbar-track {
+  background-color: #0a0a0a; /* Color of the track */
+}
+
+/* For the entire scrollbar */
+* {
+  scrollbar-width: thin; /* 'auto' (default), 'thin', 'none' */
+  scrollbar-color: #171717 #0a0a0a; /* thumb-color track-color */
+}

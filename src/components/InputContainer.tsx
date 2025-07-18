@@ -20,7 +20,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
   
   
   return (
-      <form ref={formRef} onSubmit={onSubmit} className='px-2 pt-2 rounded-t-xl bg-purple-950/10 border-t-2 border-l-2 border-r-2 border-purple-950/50'>
+      <form ref={formRef} onSubmit={onSubmit} className='px-2 pt-2 rounded-t-xl bg-purple-950/10 border-t-2 border-l-2 border-r-2 border-purple-950/50 hover:border-purple-950/70 transition-colors duration-100'>
         <div className='bg-neutral-950 border-t-2 border-r-2 border-l-2 border-neutral-900 text-neutral-50 rounded-t-lg'>
           <div className='flex justify-between items-baseline px-3 pt-2'>
             <textarea className='w-full resize-none bg-transparent text-sm leading-6 text-foreground outline-none placeholder:text-neutral-600 disabled:opacity-0 px-3 py-2'

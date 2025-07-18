@@ -17,7 +17,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
     // Target ol tags
     ol: ({ node, ...props }) => <ol className='text-sm list-decimal list-inside pl-4 mb-2' {...props} />,
     // Target inline code
-    code: ({ node, ...props }) => <code className='text-sm font-normal bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
+    code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
     // Target code blocks
     pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 rounded-md border-2 border-purple-950/50 p-3 my-2 overflow-x-auto' {...props} />,
   };
@@ -43,6 +43,17 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
       console.error('Failed to copy message: ', err);
     });
   }
+
+  if ( content === "Loading..."){
+    return (
+      <div className='flex w-fit gap-1 mr-auto py-3'>
+        <p className='w-3 h-3 animate-pulse bg-neutral-600 rounded-full'/>
+        <p className='w-3 h-3 animate-pulse bg-neutral-600 rounded-full'/>
+        <p className='w-3 h-3 animate-pulse bg-neutral-600 rounded-full'/>
+      </div>
+    )
+  }
+
 
   return (
     <div ref={chatEndRef} className='px-4 py-3 mr-auto w-fit max-w-full min-w-[200px] text-neutral-50 bg-neutral-900/40 rounded-r-2xl rounded-b-2xl mb-4'>

@@ -153,8 +153,8 @@ function App() {
           </button>
           <h1 className="text-xl font-semibold text-gray-50">AI Chat</h1>
         </div>
-      <div className='flex-1 max-w-xl w-full mx-auto bg-neutral-950 h-screen flex flex-col'>
-        <div className='flex-1 bg-neutral-950 max-h-screen overflow-y-auto px-2 mt-6 pb-8'>
+      <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col'>
+        <div className='flex-1  max-h-screen overflow-y-auto px-2 mt-6 pb-8'>
           { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
             <UserMessage key={`${message.timestamp.toISOString()}-${index}`} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
           ) : (
