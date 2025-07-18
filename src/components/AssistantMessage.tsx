@@ -23,7 +23,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
 
   const [ isCopied, setIsCopied ] = useState(false)
 
-  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : "text-neutral-50";
+  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : mode === "BADmos" ? "text-orange-400" : "text-neutral-50";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content).then(() => {

@@ -80,6 +80,8 @@ function App() {
         systemPrompt = systemPrompts.kitten
       } else if ( selectedMode === 'Mukesh' ) {
         systemPrompt = systemPrompts.mukesh
+      } else if ( selectedMode === 'BADmos' ) {
+        systemPrompt = systemPrompts.badmos
       }
 
       // config.systemPrompt = [{text: systemPrompt}]
