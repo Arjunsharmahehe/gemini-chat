@@ -67,6 +67,7 @@ function App() {
         responseMimeType: 'text/plain',
         thinkingConfig: {
           includeThoughts: true,
+          thinkingBudget: selectedModel === 'gemini-2.5-flash' ? 2058 : 6174, // Adjust thinking budget based on model
         }
       };
       
