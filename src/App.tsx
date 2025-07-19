@@ -131,15 +131,6 @@ function App() {
             }
           }
         }
-        
-      //   const chunkText = chunk.text || '';
-      //   text += chunkText;
-
-
-      // setMessages(prev => {
-      //     prev[prev.length - 1].content = text
-      //     return [...prev]
-      //   });
 
     }
 
