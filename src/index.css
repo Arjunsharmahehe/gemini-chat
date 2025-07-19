@@ -18,7 +18,7 @@
 
 /* Target the track */
 *::-webkit-scrollbar-track {
-  background-color: #0a0a0a; /* Color of the track */
+  background-color: #0a0a0a7b; /* Color of the track */
 }
 
 /* For the entire scrollbar */

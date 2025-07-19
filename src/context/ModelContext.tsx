@@ -9,6 +9,7 @@ type ModelContextType = {
     setSelectedMode: (mode: string) => void;
 }
 
+// I ain't commenting this, it's a context provider
 const ModelContext = createContext<ModelContextType | undefined>(undefined);
 
 export default function ModelContextProvider({ children }: { children: React.ReactNode }) {

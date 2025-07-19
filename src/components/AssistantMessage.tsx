@@ -7,24 +7,24 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
 
     const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
-    // Target h2 tags
+
     h2: ({ node, ...props }) => <h2 className='text-lg font-medium mt-4 mb-2' {...props} />,
-    // Target p tags
+
     p: ({ node, ...props }) => <p className='mb-2 text-sm font-normal' {...props} />,
-    // Target ul tags
+
     ul: ({ node, ...props }) => <ul className='text-sm list-disc list-inside pl-4 mb-2' {...props} />,
-    // Target ol tags
+
     ol: ({ node, ...props }) => <ol className='text-sm list-decimal list-inside pl-4 mb-2' {...props} />,
-    // Target inline code
+
     code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
-    // Target code blocks
+
     pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 rounded-md border-2 border-purple-950/50 p-3 my-2 overflow-x-auto' {...props} />,
   };
 
   const [ isCopied, setIsCopied ] = useState(false)
-  const [ showingThoughts, setShowingThoughts ] = useState(false);
+  const [ showingThoughts, setShowingThoughts ] = useState(false); // State to manage the 'show thoughts' functionality
 
-  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-pink-400" : mode === "Girlfriend" ? "text-purple-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : mode === "BADmos" ? "text-orange-400" : "text-neutral-50";
+  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-purple-400" : mode === "Girlfriend" ? "text-pink-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : mode === "BADmos" ? "text-orange-400" : "text-neutral-50";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content).then(() => {
@@ -37,6 +37,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
     });
   }
 
+  // If the content is "Loading...", return a loading indicator
   if ( content === "Loading..."){
     return (
       <div className='flex w-fit gap-1 mr-auto py-3'>
@@ -51,14 +52,20 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
 
   return (
     <div ref={chatEndRef} className='px-4 py-3 mr-auto w-fit max-w-full min-w-[200px] text-neutral-50 bg-neutral-900/40 rounded-r-2xl rounded-b-2xl mb-4'>
+      
+      {/* Header */}
       <div className='text-xs flex items-center justify-between mb-2'>
         <span className={`font-semibold ${textColor}`}>{mode}</span>
         { thoughts?.length > 0 ? <button className='text-xs text-neutral-400 hover:text-neutral-200' onClick={() => setShowingThoughts(!showingThoughts)}>{showingThoughts ? 'Hide' : 'Show'} Thoughts</button>
         : <span className="text-neutral-600">{model}</span> }
       </div>
-        <ReactMarkdown components={markdownComponents}>
-            {content}
-        </ReactMarkdown>
+
+      {/* Main content */}
+      <ReactMarkdown components={markdownComponents}>
+          {content}
+      </ReactMarkdown>
+
+      {/* Footer with timestamp and copy button */}
       <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
         <span>{timestamp.toLocaleTimeString()}</span>
 
@@ -73,23 +80,25 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
   )
 }
 
+// Alert component to show thoughts
+// This component will be displayed when the user clicks "Show Thoughts"
 function Alert({ message, setShowingThoughts }: { message: string, setShowingThoughts: React.Dispatch<React.SetStateAction<boolean>> }) {
 
   const [ isCopied, setIsCopied ] = useState(false);
 
   const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
-    // Target h2 tags
+
     h2: ({ node, ...props }) => <h2 className='text-lg font-medium mt-4 mb-2' {...props} />,
-    // Target p tags
+
     p: ({ node, ...props }) => <p className='mb-2 text-sm font-normal' {...props} />,
-    // Target ul tags
+
     ul: ({ node, ...props }) => <ul className='text-sm list-disc list-inside pl-4 mb-2' {...props} />,
-    // Target ol tags
+
     ol: ({ node, ...props }) => <ol className='text-sm list-decimal list-inside pl-4 mb-2' {...props} />,
-    // Target inline code
+
     code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
-    // Target code blocks
+
     pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 rounded-md border-2 border-purple-950/50 p-3 my-2 overflow-x-auto' {...props} />,
   };
 
@@ -107,11 +116,15 @@ function Alert({ message, setShowingThoughts }: { message: string, setShowingTho
   return (
  
       <div className='px-3 py-2 absolute z-10 top-4 left-4 rounded-xl gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col h-fit max-w-[400px] max-h-3/4'>
-        <div className='h-full overflow-y-auto bg-neutral-900 rounded-lg'>
+        
+        <div className='h-full overflow-y-auto bg-neutral-900 rounded-lg'> 
+          {/* Main Content */}
           <ReactMarkdown components={markdownComponents}>
             {message}
           </ReactMarkdown>
         </div>
+
+        {/* Footer with dismiss and copy button */}
         <div className='flex items-baseline justify-between'>
           <button className=' text-red-700 hover:text-red-600 rounded-sm' onClick={() => setShowingThoughts(false)}>Dismiss</button>
           {isCopied ? (
@@ -120,6 +133,7 @@ function Alert({ message, setShowingThoughts }: { message: string, setShowingTho
             <Copy className="size-4 text-neutral-600 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
           )}
         </div>
+
       </div>
   );
 }
