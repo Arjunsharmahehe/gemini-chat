@@ -5,6 +5,16 @@ export type ModelStruct = {
 }
 
 export const aiModels: ModelStruct[] = [
+      {
+    name: "Gemini 2.5 Pro",
+    slug: "gemini-2.5-pro",
+    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Mukesh", "BADmos"],
+  },
+    {
+    name: "Gemini 2.5 Flash",
+    slug: "gemini-2.5-flash",
+    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Mukesh", "BADmos"],
+  },
   {
     name: "Gemini 2.0 Flash",
     slug: "gemini-2.0-flash",

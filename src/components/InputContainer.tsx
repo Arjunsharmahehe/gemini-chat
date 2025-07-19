@@ -62,7 +62,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
                   </select>
               )}
 
-            <input type='password' className='w-fit min-w-[60px] p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600' placeholder='Enter your API key' value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+              <input type='password' className='w-fit min-w-[60px] p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600' placeholder='Enter your API key' value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
             
             </div>
           </div>

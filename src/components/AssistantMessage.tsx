@@ -3,7 +3,7 @@ import type { Components } from 'react-markdown'
 import { useState } from 'react';
 import { Check, Copy } from "lucide-react";
 
-export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string }) {
+export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
 
     const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
@@ -51,7 +51,8 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
     <div ref={chatEndRef} className='px-4 py-3 mr-auto w-fit max-w-full min-w-[200px] text-neutral-50 bg-neutral-900/40 rounded-r-2xl rounded-b-2xl mb-4'>
       <div className='text-xs flex items-center justify-between mb-2'>
         <span className={`font-semibold ${textColor}`}>{mode}</span>
-        <span className="text-neutral-600">{model}</span>
+        { thoughts?.length > 0 ? <button className='text-xs text-neutral-400 hover:text-neutral-200' onClick={() => alert(thoughts)}>Show Thoughts</button>
+        : <span className="text-neutral-600">{model}</span> }
       </div>
         <ReactMarkdown components={markdownComponents}>
             {content}

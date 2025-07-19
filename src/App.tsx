@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react'
-import { GoogleGenAI } from '@google/genai';
+import { ApiError, GoogleGenAI } from '@google/genai';
 import InputContainer from './components/InputContainer';
 import AssistantMessage from './components/AssistantMessage';
 import UserMessage from './components/UserMessage';
 import WelcomeScreen from './components/WelcomeScreen';
-import { Menu } from 'lucide-react';
 import { useModelContext } from './context/ModelContext';
 import { systemPrompts } from '../constants';
 
@@ -14,6 +13,7 @@ type MessageType = {
   timestamp: Date;
   model?: string;
   mode?: string;
+  thoughts?: string;
 }
 
 
@@ -50,7 +50,7 @@ function App() {
     setInput('');
 
     if (apiKey.length === 0){
-      setMessages(prev => [...prev, { type: "assistant" as const, content: "An error occured. Please check your API key", timestamp: new Date(), model: "Error", mode: "Error"}])
+      setMessages(prev => [...prev, { type: "assistant" as const, content: "An error occured. Please check your API key", timestamp: new Date(), model: "Error", mode: "Error", thoughts: ""}])
       return
     }
 
@@ -61,30 +61,16 @@ function App() {
 
 
     try {
-      const ai = new GoogleGenAI({ apiKey: apiKey });
+      const ai = new GoogleGenAI({ apiKey: '1234' });
 
       const config = {
         responseMimeType: 'text/plain',
+        thinkingConfig: {
+          includeThoughts: true,
+        }
       };
       
-      let systemPrompt = systemPrompts.assistant
-      if ( selectedMode === 'Bro' ){
-        systemPrompt = systemPrompts.bro
-      } else if ( selectedMode === 'Developer' ) {
-        systemPrompt = systemPrompts.developer
-      } else if ( selectedMode === 'Boyfriend' ) {
-        systemPrompt = systemPrompts.boyfriend
-      } else if ( selectedMode === 'Girlfriend' ) {
-        systemPrompt = systemPrompts.girlfriend
-      } else if ( selectedMode === 'Kitten' ) {
-        systemPrompt = systemPrompts.kitten
-      } else if ( selectedMode === 'Mukesh' ) {
-        systemPrompt = systemPrompts.mukesh
-      } else if ( selectedMode === 'BADmos' ) {
-        systemPrompt = systemPrompts.badmos
-      }
-
-      // config.systemPrompt = [{text: systemPrompt}]
+      const systemPrompt = systemPrompts[selectedMode.toLowerCase() as keyof typeof systemPrompts] || systemPrompts.assistant;
 
       const model = selectedModel as string;
 
@@ -118,52 +104,76 @@ function App() {
       });
 
       let text = ''
+      let thoughts = '';
       for await (const chunk of response) {
-        const chunkText = chunk.text || '';
-        text += chunkText;
+        const candidates = chunk.candidates;
+        if (candidates && candidates[0]?.content?.parts) {
+          for (const part of candidates[0].content.parts) {
+            if (!part.text) continue;
+            else if (part.thought){
+              thoughts += part.text || '';
+              console.log('Thoughts:', thoughts);
+            } else {
+              text += chunk.text || '';
+            }
+
+            if (text.length > 0) {
+              setMessages(prev => {
+                prev[prev.length - 1].content = text;
+                prev[prev.length - 1].thoughts = thoughts;
+                return [...prev];
+              });
+            } else if (thoughts.length > 0) {
+              setMessages(prev => {
+                prev[prev.length - 1].content = thoughts;
+                return [...prev];
+              });
+            }
+          }
+        }
+        
+      //   const chunkText = chunk.text || '';
+      //   text += chunkText;
 
 
-      setMessages(prev => {
-          prev[prev.length - 1].content = text
-          return [...prev]
-        });
+      // setMessages(prev => {
+      //     prev[prev.length - 1].content = text
+      //     return [...prev]
+      //   });
 
     }
 
     } catch (error) {
-      console.error('Error:', error);
+      if (error instanceof ApiError) {
+        const errorMessage = error.message;
+        console.log('API Error:', errorMessage);
+        console.log('Error: ', error);
+        const errorObject = JSON.parse(errorMessage);
+        console.log('Parsed Error:', errorObject);
+        setMessages(prev => {
+          prev[prev.length - 1] = { type: "assistant" as const, content: errorObject.message , timestamp: new Date(), model: "Error"};
+          return [...prev]
+        });
+        return
+      }
       setMessages(prev => {
-        prev[prev.length - 1] = { type: "assistant" as const, content: "Invalid API key", timestamp: new Date(), model: "Error"};
+        prev[prev.length - 1] = { type: "assistant" as const, content: "Unexpected error occurred", timestamp: new Date(), model: "Error"};
         return [...prev]
       });
       return
     }
   }
 
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
 
   return (
     <main className='bg-neutral-950 flex flex-row'>
-      <div className={`p-4 bg-neutral-950 flex items-center justify-start gap-4 ${sidebarOpen ? 'hidden' : 'flex'}`}>
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-full hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-700"
-            aria-label="Toggle sidebar"
-          >
-            <Menu className="w-6 h-6 text-gray-50" />
-          </button>
-          <h1 className="text-xl font-semibold text-gray-50">AI Chat</h1>
-        </div>
       <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col'>
         <div className='flex-1  max-h-screen overflow-y-auto px-2 mt-6 pb-8'>
           { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
             <UserMessage key={`${message.timestamp.toISOString()}-${index}`} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
           ) : (
             <AssistantMessage key={`${message.timestamp.toISOString()}-${index}`} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
-            mode={message.mode as string} />
+            mode={message.mode as string} thoughts={message.thoughts as string} />
           ))}
         </div>
         <InputContainer value={input} onChange={(e) => setInput(e.target.value)} onSubmit={handleSubmit} />
