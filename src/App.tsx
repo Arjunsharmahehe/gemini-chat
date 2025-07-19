@@ -61,7 +61,7 @@ function App() {
 
 
     try {
-      const ai = new GoogleGenAI({ apiKey: '1234' });
+      const ai = new GoogleGenAI({ apiKey: apiKey });
 
       const config = {
         responseMimeType: 'text/plain',
