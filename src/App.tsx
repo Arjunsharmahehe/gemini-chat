@@ -66,11 +66,16 @@ function App() {
       const config = {
         responseMimeType: 'text/plain',
         thinkingConfig: {
-          includeThoughts: true,
-          thinkingBudget: selectedModel === 'gemini-2.5-flash' ? 2058 : 6174, // Adjust thinking budget based on model
+          includeThoughts: false, // Default to false unless using Gemini 2.5 models
+          thinkingBudget: 0, // Default to 0 unless using Gemini 2.5 models
         }
       };
-      
+
+      if ( selectedModel === 'gemini-2.5-flash' || selectedModel === 'gemini-2.5-pro') {
+        config.thinkingConfig.includeThoughts = true; // Enable thoughts for Gemini 2.5 models
+        config.thinkingConfig.thinkingBudget = selectedModel === 'gemini-2.5-flash' ? 2058 : 6174; // Set thinking budget based on model
+    }
+
       const systemPrompt = systemPrompts[selectedMode.toLowerCase() as keyof typeof systemPrompts] || systemPrompts.assistant;
 
       const model = selectedModel as string;
@@ -138,12 +143,9 @@ function App() {
     } catch (error) {
       if (error instanceof ApiError) {
         const errorMessage = error.message;
-        console.log('API Error:', errorMessage);
-        console.log('Error: ', error);
-        const errorObject = JSON.parse(errorMessage);
-        console.log('Parsed Error:', errorObject);
+
         setMessages(prev => {
-          prev[prev.length - 1] = { type: "assistant" as const, content: errorObject.message , timestamp: new Date(), model: "Error"};
+          prev[prev.length - 1] = { type: "assistant" as const, content: errorMessage , timestamp: new Date(), model: "Error"};
           return [...prev]
         });
         return
