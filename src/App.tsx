@@ -6,8 +6,6 @@ import UserMessage from './components/UserMessage';
 import WelcomeScreen from './components/WelcomeScreen';
 import { useModelContext } from './context/ModelContext';
 import { systemPrompts } from '../constants';
-import { Save } from 'lucide-react';
-import { useHistoryContext } from './context/HistoryContext';
 import HistoryAndSave from './components/HistoryAndSave';
 
 export type MessageType = {
@@ -34,8 +32,6 @@ function App() {
   const [messages, setMessages] = useState<MessageType[]>([]);  // Stores the chat messages
   const [input, setInput] = useState('');                       // Stores the user's input 
   const { selectedModel, apiKey, selectedMode } = useModelContext();
-
-  const { addHistory } = useHistoryContext(); // Get the addHistory function from the HistoryContext
 
   // Function to scroll to the bottom of the chat
   const scrollToBottom = () => {
