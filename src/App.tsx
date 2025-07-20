@@ -211,11 +211,6 @@ function App() {
       <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col'>
         <HistoryAndSave messages={messages} setMessages={setMessages}/>
 
-        {/* <div className='flex text-neutral-200 items-center justify-between px-2 mt-2'>
-          <button>History</button>
-          <button onClick={() => addHistory(messages)} className='flex gap-1 items-center text-green-600'><Save className='size-5' />Save</button>
-        </div> */}
-
         <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
           { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
             <UserMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
