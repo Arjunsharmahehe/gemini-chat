@@ -15,7 +15,6 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // Prevents adding a new line
       formRef.current?.requestSubmit(); // Programmatically submits the form
-      localStorage.setItem('apiKey', apiKey); // Save API key to localStorage
     }
   };
   

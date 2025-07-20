@@ -19,10 +19,12 @@ export default function ModelContextProvider({ children }: { children: React.Rea
 
     useEffect(() => {
         const key = localStorage.getItem('apiKey');
-        if (key) {
-            setApiKey(key);
-        }
+         if (key && key.length > 0) setApiKey(key);
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('apiKey', apiKey);
+    }, [apiKey]);
 
     return (
         <ModelContext.Provider value={{ selectedModel, setSelectedModel, apiKey, setApiKey, selectedMode, setSelectedMode }}>
