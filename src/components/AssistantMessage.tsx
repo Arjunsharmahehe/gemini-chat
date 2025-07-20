@@ -3,7 +3,7 @@ import type { Components } from 'react-markdown'
 import { useState } from 'react';
 import { Check, Copy } from "lucide-react";
 
-export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
+export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
 
     const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
@@ -67,7 +67,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
 
       {/* Footer with timestamp and copy button */}
       <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
-        <span>{timestamp.toLocaleTimeString()}</span>
+        <span>{ typeof timestamp === "string" ? new Date(timestamp).toLocaleTimeString() : timestamp.toLocaleTimeString()}</span>
 
         {isCopied ? (
           <Check className="size-4 text-neutral-100"/>
@@ -115,7 +115,7 @@ function Alert({ message, setShowingThoughts }: { message: string, setShowingTho
 
   return (
  
-      <div className='px-3 py-2 absolute z-10 top-4 left-4 rounded-xl gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col h-fit max-w-[400px] max-h-3/4'>
+      <div className='shadow-lg shadow-neutral-950 px-3 py-2 absolute z-10 top-4 left-4 rounded-xl gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col h-fit max-w-[400px] max-h-3/4'>
         
         <div className='h-full overflow-y-auto bg-neutral-900 rounded-lg'> 
           {/* Main Content */}

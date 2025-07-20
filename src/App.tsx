@@ -6,11 +6,14 @@ import UserMessage from './components/UserMessage';
 import WelcomeScreen from './components/WelcomeScreen';
 import { useModelContext } from './context/ModelContext';
 import { systemPrompts } from '../constants';
+import { Save } from 'lucide-react';
+import { useHistoryContext } from './context/HistoryContext';
+import HistoryAndSave from './components/HistoryAndSave';
 
-type MessageType = {
+export type MessageType = {
   type: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
+  timestamp: Date | string;
   model?: string;
   mode?: string;
   thoughts?: string;
@@ -31,6 +34,8 @@ function App() {
   const [messages, setMessages] = useState<MessageType[]>([]);  // Stores the chat messages
   const [input, setInput] = useState('');                       // Stores the user's input 
   const { selectedModel, apiKey, selectedMode } = useModelContext();
+
+  const { addHistory } = useHistoryContext(); // Get the addHistory function from the HistoryContext
 
   // Function to scroll to the bottom of the chat
   const scrollToBottom = () => {
@@ -208,11 +213,18 @@ function App() {
   return (
     <main className='bg-neutral-950 flex flex-row'>
       <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col'>
-        <div className='flex-1  max-h-screen overflow-y-auto px-2 mt-6 pb-8'>
+        <HistoryAndSave messages={messages} setMessages={setMessages}/>
+
+        {/* <div className='flex text-neutral-200 items-center justify-between px-2 mt-2'>
+          <button>History</button>
+          <button onClick={() => addHistory(messages)} className='flex gap-1 items-center text-green-600'><Save className='size-5' />Save</button>
+        </div> */}
+
+        <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
           { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
-            <UserMessage key={`${message.timestamp.toISOString()}-${index}`} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
+            <UserMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
           ) : (
-            <AssistantMessage key={`${message.timestamp.toISOString()}-${index}`} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
+            <AssistantMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
             mode={message.mode as string} thoughts={message.thoughts as string} />
           ))}
         </div>

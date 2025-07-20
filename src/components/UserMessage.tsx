@@ -3,7 +3,7 @@ import type { Components } from 'react-markdown'
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
-export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
+export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
   
   // Define the markdown components styling for rendering
   const markdownComponents: Components = {
@@ -53,7 +53,7 @@ export default function UserMessage({ content, model, timestamp, chatEndRef }: {
 
       {/* Footer with timestamp and copy button */}
       <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
-        <span>{timestamp.toLocaleTimeString()}</span>
+        <span>{ typeof timestamp === "string" ? new Date(timestamp).toLocaleTimeString() : timestamp.toLocaleTimeString()}</span>
 
         {isCopied ? (
           <Check className="size-4 text-neutral-100"/>
