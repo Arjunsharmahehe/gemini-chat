@@ -1,7 +1,7 @@
 import type { MessageType } from "../App";
 import { useState } from 'react';
 import { useHistoryContext } from '../context/HistoryContext';
-import { ArrowUpRight, ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
+import { ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
 
 
 export default function HistoryAndSave({ messages, setMessages }: { messages: MessageType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
@@ -60,6 +60,6 @@ function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: {
         <a href="https://github.com/arjunsharmahehe/gemini-chat" className="flex items-center gap-1 text-neutral-600 hover:text-neutral-400 hover:underline">Github <ExternalLink className="size-3"/></a>
       </div>
     </div>
-    
+
   );
 }
