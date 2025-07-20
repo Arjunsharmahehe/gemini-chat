@@ -55,7 +55,7 @@ export default function WelcomeScreen() {
     ]
 
     return (
-        <div className="flex flex-col gap-8 mx-auto items-center pt-24 h-full text-center text-neutral-400">
+        <div className="flex flex-col gap-8 mx-auto items-center pt-18 h-full text-center text-neutral-400">
             <div>
                 <h1 className="text-3xl font-bold text-neutral-200 mb-2">Gemini Chat</h1>
                 <p>Select a model, enter your API key, and start chatting.</p>
