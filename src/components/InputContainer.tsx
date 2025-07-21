@@ -36,7 +36,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
               type='submit'
               className='mt-2 p-2 border-2 border-purple-950 text-white rounded relative overflow-hidden bg-purple-950/40 hover:bg-purple-950/60 hover:border-purple-900'
             >
-              <ArrowUp className='size-4 relative z-10'/>
+              <ArrowUp className='size-4 z-10'/>
             </button>
           </div>
 
