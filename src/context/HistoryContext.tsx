@@ -41,7 +41,7 @@ export default function HistoryContextProvider({ children }: { children: React.R
             const newTitle = newHistory[0].content.includes('||||||')
                 ? newHistory[0].content.split('||||||')[1].slice(0, 28)
                 : newHistory[0].content.slice(0, 28);
-            const finalTitle = newTitle.length === 0 ? 'Untitled Chat' : newTitle;
+            const finalTitle = newTitle.length === 0 ? title : newTitle;
             setTitle(finalTitle);
             setHistory(prev => [ { title: finalTitle, timestamp: new Date(), messages: newHistory }, ...prev ]);
         }
