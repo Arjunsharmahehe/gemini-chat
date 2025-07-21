@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown'
 import { useState } from 'react';
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, LucideSidebarOpen } from "lucide-react";
 
 export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
 
@@ -75,14 +75,14 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
           <Copy className="size-4 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
         )}
       </div>
-      { showingThoughts && thoughts && <Alert message={thoughts} setShowingThoughts={setShowingThoughts} /> }
+      {thoughts && <Alert message={thoughts} setShowingThoughts={setShowingThoughts} showSidebar={showingThoughts} /> }
     </div>
   )
 }
 
 // Alert component to show thoughts
 // This component will be displayed when the user clicks "Show Thoughts"
-function Alert({ message, setShowingThoughts }: { message: string, setShowingThoughts: React.Dispatch<React.SetStateAction<boolean>> }) {
+function Alert({ message, setShowingThoughts, showSidebar }: { message: string, setShowingThoughts: React.Dispatch<React.SetStateAction<boolean>>, showSidebar: boolean }) {
 
   const [ isCopied, setIsCopied ] = useState(false);
 
@@ -115,8 +115,19 @@ function Alert({ message, setShowingThoughts }: { message: string, setShowingTho
 
   return (
  
-      <div className='shadow-lg shadow-neutral-950 px-3 py-2 absolute z-10 top-4 left-4 rounded-xl gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col h-fit max-w-[400px] max-h-3/4'>
-        
+      <div className='shadow-lg shadow-neutral-950 px-3 py-2 absolute z-10 top-0 right-0 gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col max-w-[400px] h-full'
+        style={{ transform: `${ showSidebar ? 'translateX(0)' : 'translateX(100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
+
+        {/* Footer with dismiss and copy button */}
+        <div className='flex items-baseline justify-between'>
+          <LucideSidebarOpen className='size-5 text-neutral-500 hover:text-neutral-400' onClick={() => setShowingThoughts(false)} />
+          {isCopied ? (
+            <Check className="size-4 text-neutral-100"/>
+          ) : (
+            <Copy className="size-4 text-neutral-600 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
+          )}
+        </div>
+
         <div className='h-full overflow-y-auto bg-neutral-900 rounded-lg'> 
           {/* Main Content */}
           <ReactMarkdown components={markdownComponents}>
@@ -124,15 +135,6 @@ function Alert({ message, setShowingThoughts }: { message: string, setShowingTho
           </ReactMarkdown>
         </div>
 
-        {/* Footer with dismiss and copy button */}
-        <div className='flex items-baseline justify-between'>
-          <button className=' text-red-700 hover:text-red-600 rounded-sm' onClick={() => setShowingThoughts(false)}>Dismiss</button>
-          {isCopied ? (
-            <Check className="size-4 text-neutral-100"/>
-          ) : (
-            <Copy className="size-4 text-neutral-600 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
-          )}
-        </div>
 
       </div>
   );
