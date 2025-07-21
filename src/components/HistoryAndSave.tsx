@@ -1,7 +1,8 @@
 import type { MessageType } from "../App";
 import { useState } from 'react';
 import { useHistoryContext } from '../context/HistoryContext';
-import { ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
+import { type HistoryType } from "../context/HistoryContext";
 
 
 export default function HistoryAndSave({ messages, setMessages }: { messages: MessageType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
@@ -28,9 +29,9 @@ export default function HistoryAndSave({ messages, setMessages }: { messages: Me
   );
 }
 
-function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: { history: MessageType[][], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>, setShowHistory: React.Dispatch<React.SetStateAction<boolean>>, showHistory: boolean }) {
+function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: { history: HistoryType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>, setShowHistory: React.Dispatch<React.SetStateAction<boolean>>, showHistory: boolean }) {
 
-    const { deleteHistory, clearHistory } = useHistoryContext()
+    const { clearHistory } = useHistoryContext()
 
   return (
 
@@ -43,23 +44,50 @@ function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: {
       <h2 className='px-2 text-base font-semibold flex w-full justify-between items-baseline'>
         History
         <button className=' text-red-700 font-normal text-xs bg-red-950/10 px-1 py-.5 hover:text-red-600 rounded-sm' onClick={clearHistory}>Clear All</button>
-        </h2>
-      <div className="flex flex-col gap-1 overflow-y-auto h-full">
-        { history.length > 0 ? history.map((item, index) => (
-          <div key={index} className='text-left text-sm items-center bg-neutral-800/30 hover:bg-neutral-800/80 px-2 py-1 rounded-md flex gap-2 w-full text-neutral-300'>
-            <button onClick={() => setMessages(item)} className="text-left w-full overflow-x-clip">{ item[0]?.content.includes('||||||') ? item[0]?.content.split('||||||')[1]?.slice(0, 28) : item[0]?.content.slice(0, 28) }</button>
-            <Trash2 className="size-5 text-neutral-500 hover:text-red-600 duration-100 transition-colors" onClick={() => deleteHistory(index)} />
-          </div>
-        ))
-        : <div className="items-center bg-neutral-800/30 hover:bg-neutral-800/80 px-2 py-1 rounded-md flex gap-2 w-full">
-            <p className='w-full text-center text-sm text-neutral-500'>No history available</p>
-          </div>}
-      </div>
+      </h2>
+
+      <ShowHistory history={history} setMessages={setMessages} />
+
       <div className='px-1 flex items-baseline justify-between'>
         <a href="https://arjunsharmahehe.netlify.app" className="text-neutral-600 hover:text-neutral-400 hover:underline">Arjun</a>
         <a href="https://github.com/arjunsharmahehe/gemini-chat" className="flex items-center gap-1 text-neutral-600 hover:text-neutral-400 hover:underline">Github <ExternalLink className="size-3"/></a>
       </div>
     </div>
 
+  );
+}
+
+function ShowHistory({ history, setMessages }: { history: HistoryType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
+
+  const [ query, setQuery ] = useState('');
+
+  return (
+    <div className="h-full flex flex-col gap-2 overflow-y-auto bg-neutral-900">
+      <input type="text" placeholder="Search..." className="w-full p-2 bg-neutral-900 border-2 border-neutral-800/40 hover:border-neutral-800 hover:bg-neutral-800/40 text-neutral-200 rounded-md mb-2 outline-none" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <DisplayRows history={history.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))} setMessages={setMessages} />
+    </div>
+  )
+}
+
+function DisplayRows({ history, setMessages }: { history: HistoryType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
+
+  const { deleteHistory, changeTitle } = useHistoryContext();
+
+  return (
+    <div className="flex flex-col gap-1 overflow-y-auto h-full">
+
+        { history.length > 0 ? history.map((item, index) => (
+
+          <div key={index} className='text-left text-sm items-center bg-neutral-800/30 hover:bg-neutral-800/80 px-2 py-1 rounded-md flex gap-2 w-full text-neutral-300'>
+            <input className="outline-none bg-neutral-800/0 focus:bg-neutral-800/30 rounded-sm text-left w-full overflow-x-clip" value={item.title} onChange={(e) => changeTitle(index, e.target.value)} />
+            <Trash2 className="size-5 text-neutral-500 hover:text-red-600 duration-100 transition-colors" onClick={() => deleteHistory(index)} />
+            <ArrowUpRight className="size-5 text-neutral-500 hover:text-blue-600 duration-100 transition-colors" onClick={() => setMessages(item.messages)} />
+          </div>
+
+        ))
+        : <div className="items-center bg-neutral-800/30 hover:bg-neutral-800/80 px-2 py-1 rounded-md flex gap-2 w-full">
+            <p className='w-full text-center text-sm text-neutral-500'>No history available</p>
+          </div>}
+      </div>
   );
 }
