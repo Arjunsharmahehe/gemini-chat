@@ -64,7 +64,7 @@ function ShowHistory({ history, setMessages }: { history: HistoryType[], setMess
   return (
     <div className="h-full flex flex-col gap-2 overflow-y-auto bg-neutral-900">
       <input type="text" placeholder="Search..." className="w-full p-2 bg-neutral-900 border-2 border-neutral-800/40 hover:border-neutral-800 hover:bg-neutral-800/40 text-neutral-200 rounded-md mb-2 outline-none" value={query} onChange={(e) => setQuery(e.target.value)} />
-      <DisplayRows history={history.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))} setMessages={setMessages} />
+      <DisplayRows history={history.filter(item => item?.title.toLowerCase().includes(query.toLowerCase()))} setMessages={setMessages} />
     </div>
   )
 }
