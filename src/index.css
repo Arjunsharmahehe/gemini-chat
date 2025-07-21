@@ -28,5 +28,5 @@
 }
 
 body {
-  @apply overflow-x-hidden h-screen
+  @apply overflow-x-hidden bg-neutral-950 h-screen
 }
