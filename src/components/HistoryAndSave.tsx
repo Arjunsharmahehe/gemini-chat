@@ -35,7 +35,7 @@ function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: {
 
   return (
 
-    <div className='shadow-lg z-5 absolute flex flex-col gap-3 left-0 top-0 h-svh  md:h-screen bg-neutral-900 p-4 w-3/4 md:w-2/6 lg:w-1/5' style={{ transform: `${showHistory ? 'translateX(0)' : 'translateX(-100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
+    <div className='shadow-lg z-5 absolute flex flex-col gap-3 left-0 top-0 min-h-svh h-full max-h-screen md:h-screen bg-neutral-900 p-4 w-3/4 md:w-2/6 lg:w-1/5' style={{ transform: `${showHistory ? 'translateX(0)' : 'translateX(-100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
 
       <div className="flex w-full items-center justify-end"><SidebarClose className="size-5 text-neutral-500 hover:text-neutral-400" onClick={() => setShowHistory(false)}/></div>
 
