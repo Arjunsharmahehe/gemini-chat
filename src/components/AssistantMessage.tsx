@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown'
 import { useState } from 'react';
-import { Check, Copy, LucideSidebarOpen } from "lucide-react";
+import { Check, Copy, LucideSidebarClose } from "lucide-react";
 
 export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
 
@@ -115,17 +115,17 @@ function Alert({ message, setShowingThoughts, showSidebar }: { message: string, 
 
   return (
  
-      <div className='px-3 py-2 absolute z-10 top-0 right-0 gap-3 flex bg-neutral-900 flex-col w-3/4 md:w-2/3 lg:w-2/5 h-screen'
-        style={{ transform: `${ showSidebar ? 'translateX(0)' : 'translateX(100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
+      <div className='px-3 py-2 absolute z-5 top-0 left-0 gap-3 flex bg-neutral-900 flex-col w-3/4 md:w-2/3 lg:w-2/5 h-screen'
+        style={{ transform: `${ showSidebar ? 'translateX(0)' : 'translateX(-100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
 
         {/* Footer with dismiss and copy button */}
         <div className='flex items-baseline justify-between'>
-          <LucideSidebarOpen className='size-5 text-neutral-500 hover:text-neutral-400' onClick={() => setShowingThoughts(false)} />
           {isCopied ? (
             <Check className="size-4 text-neutral-100"/>
           ) : (
             <Copy className="size-4 text-neutral-600 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
           )}
+          <LucideSidebarClose className='size-5 text-neutral-500 hover:text-neutral-400' onClick={() => setShowingThoughts(false)} />
         </div>
 
         <div className='h-full overflow-y-auto bg-neutral-900 rounded-lg'> 
