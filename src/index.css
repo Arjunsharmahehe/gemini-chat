@@ -26,3 +26,7 @@
   scrollbar-width: thin; /* 'auto' (default), 'thin', 'none' */
   scrollbar-color: #171717 #0a0a0a; /* thumb-color track-color */
 }
+
+body {
+  @apply overflow-hidden
+}
