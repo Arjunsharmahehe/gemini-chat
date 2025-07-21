@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { useHistoryContext } from '../context/HistoryContext';
 import { ArrowUpRight, ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
 import { type HistoryType } from "../context/HistoryContext";
+import { useModelContext } from "../context/ModelContext";
 
 
 export default function HistoryAndSave({ messages, setMessages }: { messages: MessageType[], setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
   const { addHistory, history } = useHistoryContext();
+  const { selectedMode } = useModelContext();
   const [ showHistory, setShowHistory ] = useState(false);
   const [ isSaved, setIsSaved ] = useState(false)
 
@@ -19,6 +21,7 @@ export default function HistoryAndSave({ messages, setMessages }: { messages: Me
   return (
     <div className='text-sm flex text-neutral-200 items-center justify-between px-2 mt-2'>
       <button className="text-neutral-400 hover:text-neutral-200" onClick={() => setShowHistory(!showHistory)}>{showHistory ? 'Hide' : 'Show'} History</button>
+      <p className="font-semibold">{selectedMode}</p>
       <button onClick={handleSave} className='flex gap-1 items-center text-green-600'>
         <Save className='size-4' />
         { isSaved ? "Saved" : "Save"}

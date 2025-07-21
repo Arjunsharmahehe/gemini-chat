@@ -2,9 +2,10 @@ import { useRef } from "react";
 import { aiModels, type ModelStruct } from "../../constants";
 import { ArrowUp } from "lucide-react";
 import { useModelContext } from "../context/ModelContext";
+import type { MessageType } from "../App";
 
-export default function InputContainer({ value, onChange, onSubmit }: { value?: string; onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void; }) {
-  
+export default function InputContainer({ value, onChange, onSubmit, setMessages }: { value?: string; onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void; setMessages: React.Dispatch<React.SetStateAction<MessageType[]>> }) {
+
   const formRef = useRef<HTMLFormElement>(null);
   const { selectedModel, setSelectedModel, apiKey, setApiKey, selectedMode, setSelectedMode } = useModelContext()
 
@@ -59,7 +60,7 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
               {/* Mode Selection     */}
               { aiModels.find(model => model.slug === selectedModel)?.modes && (
                 <select value={selectedMode}
-                        onChange={(e) => setSelectedMode(e.target.value)}
+                        onChange={(e) => {setSelectedMode(e.target.value); setMessages([])}}
                         className='w-fit p-2 text-sm rounded text-white hover:bg-neutral-900/30'>
                     { aiModels.find(model => model.slug === selectedModel)?.modes.map((mode, index) => (
                       <option key={index} value={mode}>{mode}</option>

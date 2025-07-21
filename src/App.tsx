@@ -127,14 +127,14 @@ function App() {
       // We append the system prompt to the first user input
       // We cannot pass system prompts to all as Gemma models do not support it
       let firstInput = contents[0]?.parts[0]?.text || '';
-      if (firstInput.length > 0 &&firstInput.includes('||||||')) {
-        firstInput = firstInput.split('||||||')[1].trim(); // This is to remove the system prompt if it already exists
+      if (firstInput.length > 0 &&firstInput.includes('####user####')) {
+        firstInput = firstInput.split('####user####')[1].trim(); // This is to remove the system prompt if it already exists
       } else {
         firstInput = firstInput.trim(); // Trim the input if it does not contain the system prompt
       }
 
       // Update the first input with the system prompt (this lets different models share the context but have different modes)
-      contents[0].parts[0].text = systemPrompt + '\n\n||||||\n\n' + firstInput
+      contents[0].parts[0].text = systemPrompt + '\n\n####user####\n\n' + firstInput
 
       // Add a loading message to the chat
       // This will be replaced with the actual response from the model
@@ -219,7 +219,7 @@ function App() {
             mode={message.mode as string} thoughts={message.thoughts as string} />
           ))}
         </div>
-        <InputContainer value={input} onChange={(e) => setInput(e.target.value)} onSubmit={handleSubmit} />
+        <InputContainer setMessages={setMessages} value={input} onChange={(e) => setInput(e.target.value)} onSubmit={handleSubmit} />
       </div>
     </main>
   )
