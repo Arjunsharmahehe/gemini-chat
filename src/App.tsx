@@ -207,8 +207,8 @@ function App() {
 
 
   return (
-    <main className='bg-neutral-950 flex flex-row'>
-      <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col'>
+    <main className='bg-neutral-950 flex flex-row overflow-x-hidden'>
+      <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col overflow-x-hidden'>
         <HistoryAndSave messages={messages} setMessages={setMessages}/>
 
         <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
