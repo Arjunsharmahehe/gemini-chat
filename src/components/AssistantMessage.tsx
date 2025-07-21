@@ -115,7 +115,7 @@ function Alert({ message, setShowingThoughts, showSidebar }: { message: string, 
 
   return (
  
-      <div className='px-3 py-2 absolute z-10 top-0 right-0 gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col max-w-[400px] h-screen'
+      <div className='px-3 py-2 absolute z-10 top-0 right-0 gap-3 flex bg-neutral-900 border-2 border-neutral-900/50 hover:border-neutral-900/80 flex-col w-3/4 md:w-2/3 lg:w-2/5 h-screen'
         style={{ transform: `${ showSidebar ? 'translateX(0)' : 'translateX(100%)'}`, transition: 'transform 0.3s ease-in-out' }}>
 
         {/* Footer with dismiss and copy button */}
