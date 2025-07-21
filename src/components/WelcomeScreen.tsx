@@ -10,7 +10,7 @@ type ModeStruct = {
 export default function WelcomeScreen() {
 
 
-    const { setSelectedMode } = useModelContext();
+    const { setSelectedMode, selectedMode } = useModelContext();
     const modes: ModeStruct[] = [
         {
             name: "Assistant",
@@ -64,7 +64,7 @@ export default function WelcomeScreen() {
             <div className="flex flex-col">
                 { modes.map((mode) => (
                     <button key={mode.name} onClick={() => setSelectedMode(mode.name)}
-                            className={`px-2 py-1 flex items-center gap-4 bg-neutral-950 hover:bg-neutral-900/20 border-2 border-neutral-900/20 rounded-lg transition-colors duration-200`}>
+                            className={`px-2 py-1 flex items-center gap-4 ${ mode.name === selectedMode ? 'bg-neutral-900/70 hover:bg-neutral-900' : 'bg-neutral-950 hover:bg-neutral-900/20'} border-2 border-neutral-900/20 rounded-lg transition-colors duration-200`}>
                         { mode.icon ? mode.icon : null }
                         <div className="flex flex-col items-baseline">
                             <h2 className="text-base text-neutral-300 font-semibold">{mode.name}</h2>
