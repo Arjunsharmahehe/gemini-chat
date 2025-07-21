@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
         },
         {
             name: "Bro",
-            description: "You bro, a bully, a best friend.",
+            description: "Your bro, a bully, a best friend.",
             icon: <BicepsFlexed className="size-6 text-blue-400" />
         },
         {
