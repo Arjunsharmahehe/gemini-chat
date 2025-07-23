@@ -24,7 +24,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
   const [ isCopied, setIsCopied ] = useState(false)
   const [ showingThoughts, setShowingThoughts ] = useState(false); // State to manage the 'show thoughts' functionality
 
-  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-purple-400" : mode === "Girlfriend" ? "text-pink-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Mukesh" ? "text-red-400" : mode === "BADmos" ? "text-orange-400" : "text-neutral-50";
+  const textColor = mode === "Bro" ? "text-blue-400" : mode === "Developer" ? "text-green-400" : mode === "Boyfriend" ? "text-purple-400" : mode === "Girlfriend" ? "text-pink-400" : mode === "Kitten" ? "text-yellow-400" : mode === "Therapist" ? "text-red-400" : mode === "BADmos" ? "text-orange-400" : "text-neutral-50";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content).then(() => {

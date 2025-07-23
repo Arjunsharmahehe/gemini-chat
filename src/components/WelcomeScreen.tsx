@@ -1,4 +1,4 @@
-import { BicepsFlexed, Cat, CodeSquare, Heart, Laptop, PocketKnifeIcon, University } from "lucide-react";
+import { BicepsFlexed, Cat, CodeSquare, Heart, HeartHandshake, Laptop, PocketKnifeIcon } from "lucide-react";
 import { useModelContext } from "../context/ModelContext";
 
 type ModeStruct = {
@@ -43,9 +43,9 @@ export default function WelcomeScreen() {
             icon: <Cat className="size-6 text-yellow-400" />
         },
         {            
-            name: "Mukesh",
-            description: "A rude ass physics professor.",
-            icon: <University className="size-6 text-red-400" />
+            name: "Therapist",
+            description: "A pseudo therapist to talk to.",
+            icon: <HeartHandshake className="size-6 text-red-400" />
         },
         {            
             name: "BADmos",
