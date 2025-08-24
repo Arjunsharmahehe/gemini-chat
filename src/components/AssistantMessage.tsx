@@ -48,16 +48,26 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
     )
   }
 
+  if( thoughts?.length === 0 && model?.includes("reasoning") && content.length > 0) {
+      return (
+          <div className='flex flex-col'>
+              <p className='text-sm font-semibold animate-pulse text-gray-500'>Thinking...</p>
+              <p className='text-sm animate-pulse text-gray-900'>{content.slice(2, -2)}</p>
+          </div>
+      )
+
+  }
+
 
 
   return (
-    <div ref={chatEndRef} className='px-4 py-3 mr-auto w-fit max-w-full min-w-[200px] text-neutral-50 bg-neutral-900/40 rounded-r-2xl rounded-b-2xl mb-4'>
+    <div ref={chatEndRef} className='group px-4 py-3 mr-auto w-fit max-w-full min-w-[200px] text-neutral-50 mb-4'>
       
       {/* Header */}
       <div className='text-xs flex items-center justify-between mb-2'>
         <span className={`font-semibold ${textColor}`}>{mode}</span>
         { thoughts?.length > 0 ? <button className='text-xs text-neutral-400 hover:text-neutral-200' onClick={() => setShowingThoughts(!showingThoughts)}>{showingThoughts ? 'Hide' : 'Show'} Thoughts</button>
-        : <span className="text-neutral-600">{model}</span> }
+        : <span className="text-neutral-950 hover:text-neutral-600">{model}</span> }
       </div>
 
       {/* Main content */}
@@ -66,7 +76,7 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
       </ReactMarkdown>
 
       {/* Footer with timestamp and copy button */}
-      <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
+      {/* <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
         <span>{ typeof timestamp === "string" ? new Date(timestamp).toLocaleTimeString() : timestamp.toLocaleTimeString()}</span>
 
         {isCopied ? (
@@ -74,7 +84,12 @@ export default function AssistantMessage({ content, model, timestamp, chatEndRef
         ) : (
           <Copy className="size-4 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
         )}
-      </div>
+      </div> */}
+        {isCopied ? (
+        <Check className=" bottom-0 right-0 size-5 bg-neutral-950 p-1 rounded-sm text-green-500 hover:text-green-600 duration-150 ease-in transition-all"/>
+      ) : (
+        <Copy className=" bottom-0 right-0 size-5 bg-neutral-950 p-1 hidden group-hover:block rounded-sm text-neutral-500 hover:text-neutral-200 duration-150 ease-in transition-all" onClick={handleCopy} />
+      )}
       {thoughts && <Alert message={thoughts} setShowingThoughts={setShowingThoughts} showSidebar={showingThoughts} /> }
     </div>
   )

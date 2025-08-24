@@ -1,38 +1,52 @@
 export type ModelStruct = {
   name: string;
   slug: string;
+  reasoning: boolean;
+  attributes: string[];
   modes: string[];
 }
 
 export const aiModels: ModelStruct[] = [
-      {
+  {
     name: "Gemini 2.5 Pro",
-    slug: "gemini-2.5-pro",
+    slug: "gemini-2.5-pro-reasoning",
+    reasoning: true,
+    attributes: ["Highest Quality", "Handle complex tasks", "Slower response"],
     modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
   },
-    {
+  {
     name: "Gemini 2.5 Flash",
     slug: "gemini-2.5-flash",
+    reasoning: false,
+    attributes: ["Fast response", "Handle daily tasks"],
+    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
+  },
+  {
+    name: "Gemini 2.5 Flash",
+    slug: "gemini-2.5-flash-reasoning",
+    reasoning: true,
+    attributes: ["Fast response", "Handle daily tasks", "Slower response"],
+    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
+  },
+  {
+    name: "Gemini 2.5 Flash Lite",
+    slug: "gemini-2.5-flash-lite",
+    reasoning: false,
+    attributes: ["Very fast response", "Handle basic tasks"],
     modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
   },
   {
     name: "Gemini 2.0 Flash",
     slug: "gemini-2.0-flash",
+    reasoning: false,
+    attributes: ["Fast response", "Handle simple tasks"],
     modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
   },
   {
-    name: "Gemini 2.0 Flash lite",
+    name: "Gemini 2.0 Flash Lite",
     slug: "gemini-2.0-flash-lite",
-    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
-  },
-  {
-    name: "Gemma 3n E2B",
-    slug: "gemma-3n-e2b-it",
-    modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
-  },
-  {
-    name: 'Gemma 3n E4B',
-    slug: 'gemma-3n-e4b-it',
+    reasoning: false,
+    attributes: ["Fastest response", "Handle basic tasks"],
     modes: ["Assistant", "Bro", "Developer", "Girlfriend", "Boyfriend", "Kitten", "Therapist", "BADmos"],
   }
 ]

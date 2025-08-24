@@ -38,13 +38,13 @@ export default function UserMessage({ content, model, timestamp, chatEndRef }: {
   }
   
   return (
-    <div ref={chatEndRef} className='px-4 py-3 ml-auto w-fit max-w-[400px] min-w-[200px] text-neutral-50 bg-neutral-900 rounded-l-2xl rounded-b-2xl mb-4'>
+    <div ref={chatEndRef} className='group relative px-4 py-2 ml-auto w-fit max-w-[400px] text-neutral-50 bg-neutral-900 rounded-l-2xl rounded-b-2xl mb-4'>
       
       {/* Header */}
-      <div className='text-xs flex items-center justify-between mb-2'>
+      {/* <div className='text-xs flex items-center justify-between mb-2'>
         <span className="font-semibold">User</span>
         <span className="text-neutral-600">to: {model}</span>
-      </div>
+      </div> */}
 
       {/* Main content */}
       <ReactMarkdown components={markdownComponents}>
@@ -52,7 +52,7 @@ export default function UserMessage({ content, model, timestamp, chatEndRef }: {
       </ReactMarkdown>
 
       {/* Footer with timestamp and copy button */}
-      <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
+      {/* <div className='text-xs text-neutral-600 flex items-center justify-between mt-2'>
         <span>{ typeof timestamp === "string" ? new Date(timestamp).toLocaleTimeString() : timestamp.toLocaleTimeString()}</span>
 
         {isCopied ? (
@@ -60,7 +60,12 @@ export default function UserMessage({ content, model, timestamp, chatEndRef }: {
         ) : (
           <Copy className="size-4 hover:text-neutral-200 duration-150 ease-in transition-colors" onClick={handleCopy} />
         )}
-      </div>
+      </div> */}
+      {isCopied ? (
+        <Check className="absolute bottom-0 right-0 size-5 bg-neutral-900 p-1 rounded-sm text-green-500 hover:text-green-600 duration-150 ease-in transition-all"/>
+      ) : (
+        <Copy className="absolute bottom-0 right-0 size-5 bg-neutral-900 p-1 hidden group-hover:block rounded-sm text-neutral-500 hover:text-neutral-200 duration-150 ease-in transition-all" onClick={handleCopy} />
+      )}
 
     </div>
   )

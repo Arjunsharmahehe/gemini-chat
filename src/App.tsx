@@ -5,8 +5,9 @@ import AssistantMessage from './components/AssistantMessage';
 import UserMessage from './components/UserMessage';
 import WelcomeScreen from './components/WelcomeScreen';
 import { useModelContext } from './context/ModelContext';
-import { systemPrompts } from '../constants';
+import { aiModels, systemPrompts } from '../constants';
 import HistoryAndSave from './components/HistoryAndSave';
+import { TooltipProvider } from './components/ui/tooltip';
 
 export type MessageType = {
   type: 'user' | 'assistant';
@@ -20,9 +21,14 @@ export type MessageType = {
 type ConfigType = {
   responseMimeType: string;
   thinkingConfig?: {
-    includeThoughts: boolean;
+    includeThoughts: boolean; // Optional, default is false
     thinkingBudget: number;
   };
+  systemInstruction: [
+    {
+        text: string
+    }
+  ]
 }
 
 
@@ -81,35 +87,33 @@ function App() {
       // Init the client with the API key
       const ai = new GoogleGenAI({ apiKey: apiKey });
 
+      const systemInstruction = systemPrompts[selectedMode.toLowerCase() as keyof typeof systemPrompts] || systemPrompts.assistant;
+
       // Set the configuration for the model
       const config: ConfigType = {
-        responseMimeType: 'text/plain',
-        thinkingConfig: {
-          includeThoughts: false, // Default to false unless using Gemini 2.5 models
-          thinkingBudget: 0, // Default to 0 unless using Gemini 2.5 models
-        }
+          responseMimeType: 'text/plain',
+          thinkingConfig: {
+              includeThoughts: false,
+              thinkingBudget: 0, // Default to 0 unless using Gemini 2.5 models
+          },
+          systemInstruction: [
+              {
+                  text: systemInstruction
+              }
+          ]
       };
 
       // If it is a reasoning model, set the thinking config
-      if ( selectedModel === 'gemini-2.5-flash' || selectedModel === 'gemini-2.5-pro') {
-        if (!config.thinkingConfig) {
-          config.thinkingConfig = { includeThoughts: true, thinkingBudget: selectedModel === 'gemini-2.5-flash' ? 2058 : 6174 };
-        } else {
-          config.thinkingConfig.includeThoughts = true; // Enable thoughts for Gemini 2.5 models
-          config.thinkingConfig.thinkingBudget = selectedModel === 'gemini-2.5-flash' ? 2058 : 6174; // Set thinking budget based on model
-        }
+      if ( aiModels.find(m => m.slug === selectedModel && m.reasoning) ) {
+          if (!config.thinkingConfig) {
+              config.thinkingConfig = { includeThoughts: true, thinkingBudget: selectedModel === 'gemini-2.5-flash-reasoning' ? 2058 : 6174 };
+          } else {
+              config.thinkingConfig.includeThoughts = true; // Enable thoughts for Gemini 2.5 models
+              config.thinkingConfig.thinkingBudget = selectedModel === 'gemini-2.5-flash-reasoning' ? 2058 : 6174; // Set thinking budget based on model
+          }
       }
 
-      // If it is a Gemma model, remove the thinking config
-      // Gemma models do not support thinking config, so we remove it if it exists
-      if (selectedModel === 'gemma-3n-e2b-it' || selectedModel === 'gemma-3n-e4b-it' || selectedModel === 'gemma-3-1b-it') {
-        delete config.thinkingConfig;
-      } 
-
-      // Fetch the system prompt based on the selected mode (default to 'assistant' if mode is not found)
-      const systemPrompt = systemPrompts[selectedMode.toLowerCase() as keyof typeof systemPrompts] || systemPrompts.assistant;
-
-      const model = selectedModel as string;
+      const model = selectedModel.includes('reasoning') ? selectedModel.slice(0, -10) : selectedModel;
 
       // Prepare the contents for the API request
       const contents = [...history,
@@ -122,19 +126,6 @@ function App() {
           ],
         },
       ];
-
-      // This is where we pass the system prompt
-      // We append the system prompt to the first user input
-      // We cannot pass system prompts to all as Gemma models do not support it
-      let firstInput = contents[0]?.parts[0]?.text || '';
-      if (firstInput.length > 0 &&firstInput.includes('####user####')) {
-        firstInput = firstInput.split('####user####')[1].trim(); // This is to remove the system prompt if it already exists
-      } else {
-        firstInput = firstInput.trim(); // Trim the input if it does not contain the system prompt
-      }
-
-      // Update the first input with the system prompt (this lets different models share the context but have different modes)
-      contents[0].parts[0].text = systemPrompt + '\n\n####user####\n\n' + firstInput
 
       // Add a loading message to the chat
       // This will be replaced with the actual response from the model
@@ -154,13 +145,15 @@ function App() {
       // Complex shit. Basically if the model is thinking add the thinking data else add the answer
       let text = ''
       let thoughts = '';
+      let reasoningData = ''
       for await (const chunk of response) {
         const candidates = chunk.candidates;
         if (candidates && candidates[0]?.content?.parts) {
           for (const part of candidates[0].content.parts) {
             if (!part.text) continue;
             else if (part.thought){
-              thoughts += part.text || '';
+              thoughts = part.text.split('\n')[0] || '';
+              reasoningData += part.text || "";
               console.log('Thoughts:', thoughts);
             } else {
               text += chunk.text || '';
@@ -169,7 +162,7 @@ function App() {
             if (text.length > 0) {
               setMessages(prev => {
                 prev[prev.length - 1].content = text;
-                prev[prev.length - 1].thoughts = thoughts;
+                prev[prev.length - 1].thoughts = reasoningData;
                 return [...prev];
               });
             } else if (thoughts.length > 0) {
@@ -207,21 +200,23 @@ function App() {
 
 
   return (
-    <main className='bg-neutral-950 flex flex-row overflow-x-hidden'>
-      <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col overflow-x-hidden'>
-        <HistoryAndSave messages={messages} setMessages={setMessages}/>
+    <TooltipProvider>
+      <main className='bg-neutral-950 flex flex-row overflow-x-hidden'>
+        <div className='flex-1 max-w-xl w-full mx-auto h-screen flex flex-col overflow-x-hidden'>
+          <HistoryAndSave messages={messages} setMessages={setMessages}/>
 
-        <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
-          { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
-            <UserMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
-          ) : (
-            <AssistantMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
-            mode={message.mode as string} thoughts={message.thoughts as string} />
-          ))}
+          <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
+            { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
+              <UserMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
+            ) : (
+              <AssistantMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
+              mode={message.mode as string} thoughts={message.thoughts as string} />
+            ))}
+          </div>
+          <InputContainer value={input} onChange={(e) => setInput(e.target.value)} onSubmit={handleSubmit} />
         </div>
-        <InputContainer setMessages={setMessages} value={input} onChange={(e) => setInput(e.target.value)} onSubmit={handleSubmit} />
-      </div>
-    </main>
+      </main>
+    </TooltipProvider>
   )
 }
 
