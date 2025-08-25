@@ -1,7 +1,7 @@
-import type { MessageType } from "../App";
+import type { MessageType } from '@/types/types';
 import { useState } from 'react';
 import { useHistoryContext } from '../context/HistoryContext';
-import { ArrowUpRight, ExternalLink, Plus, Save, SidebarClose, Trash2 } from 'lucide-react';
+import { ArrowUpRight, Bookmark, BookmarkCheck, ExternalLink, Plus, SidebarClose, SidebarOpen, Trash2 } from 'lucide-react';
 import { type HistoryType } from "../context/HistoryContext";
 import { useModelContext } from "../context/ModelContext";
 
@@ -20,11 +20,10 @@ export default function HistoryAndSave({ messages, setMessages }: { messages: Me
 
   return (
     <div className='text-sm flex text-neutral-200 items-center justify-between px-2 mt-2'>
-      <button className="text-neutral-400 hover:text-neutral-200" onClick={() => setShowHistory(!showHistory)}>{showHistory ? 'Hide' : 'Show'} History</button>
+      <button className="text-neutral-400 hover:text-neutral-200" onClick={() => setShowHistory(!showHistory)}>{showHistory ? <SidebarClose /> : <SidebarOpen />}</button>
       <p className="font-semibold">{selectedMode}</p>
       <button onClick={handleSave} className='flex gap-1 items-center text-green-600'>
-        <Save className='size-4' />
-        { isSaved ? "Saved" : "Save"}
+        { isSaved ? <BookmarkCheck className="size-5 text-green-500"/> : <Bookmark className="size-5 hover:text-green-400 duration-150 ease-in transition-colors"/> }
       </button>
 
       {<DisplayHistory history={history} setMessages={setMessages} setShowHistory={setShowHistory} showHistory={showHistory} />}
@@ -52,7 +51,7 @@ function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: {
       <ShowHistory history={history} setMessages={setMessages} />
 
       <div className='px-1 flex items-baseline justify-between'>
-        <a href="https://arjunsharmahehe.netlify.app" className="text-neutral-600 hover:text-neutral-400 hover:underline">Arjun</a>
+        <a href="https://arjunsharmahehe.tech" className="text-neutral-600 hover:text-neutral-400 hover:underline">Arjun</a>
         <a href="https://github.com/arjunsharmahehe/gemini-chat" className="flex items-center gap-1 text-neutral-600 hover:text-neutral-400 hover:underline">Github <ExternalLink className="size-3"/></a>
       </div>
     </div>

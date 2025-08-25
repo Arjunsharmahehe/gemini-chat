@@ -3,8 +3,8 @@ import type { Components } from 'react-markdown'
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
-export default function UserMessage({ content, model, timestamp, chatEndRef }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
-  
+export default function UserMessage({ content, chatEndRef }: { content: string; chatEndRef: React.RefObject<HTMLDivElement | null> }) {
+
   // Define the markdown components styling for rendering
   const markdownComponents: Components = {
     h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,

@@ -1,4 +1,4 @@
-import { BicepsFlexed, Cat, CodeSquare, Heart, HeartHandshake, Laptop, PocketKnifeIcon } from "lucide-react";
+import { BicepsFlexed, CodeSquare, Heart, HeartHandshake, Laptop, PocketKnifeIcon } from "lucide-react";
 import { useModelContext } from "../context/ModelContext";
 
 type ModeStruct = {
@@ -38,18 +38,13 @@ export default function WelcomeScreen() {
             icon: <Heart className="size-6 text-purple-600" />
         },
         {            
-            name: "Kitten",
-            description: "Meow meow, meow meow meow meow.",
-            icon: <Cat className="size-6 text-yellow-400" />
-        },
-        {            
             name: "Therapist",
             description: "A pseudo therapist to talk to.",
             icon: <HeartHandshake className="size-6 text-red-400" />
         },
         {            
-            name: "BADmos",
-            description: "The one who has been to dark web.",
+            name: "Monday",
+            description: "Sarcastic and mean, like the worst day of the week.",
             icon: <PocketKnifeIcon className="size-6 text-orange-400" />
         }
     ]

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, useContext } from 'react';
-import type { MessageType } from '../App';
+import type { MessageType } from '@/types/types';
 
 export type HistoryType = {
     title: string;
@@ -38,9 +38,7 @@ export default function HistoryContextProvider({ children }: { children: React.R
             }
         }
         if (flag) {
-            const newTitle = newHistory[0].content.includes('####user####')
-                ? newHistory[0].content.split('####user####')[1].slice(0, 28)
-                : newHistory[0].content.slice(0, 28);
+            const newTitle = newHistory[0].content.slice(0, 28);
             const finalTitle = newTitle.length === 0 ? title : newTitle;
             setTitle(finalTitle);
             setHistory(prev => [ { title: finalTitle, timestamp: new Date(), messages: newHistory }, ...prev ]);

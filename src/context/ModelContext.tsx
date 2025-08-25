@@ -13,7 +13,7 @@ type ModelContextType = {
 const ModelContext = createContext<ModelContextType | undefined>(undefined);
 
 export default function ModelContextProvider({ children }: { children: React.ReactNode }) {
-    const [selectedModel, setSelectedModel] = useState('gemini-2.0-flash');
+    const [selectedModel, setSelectedModel] = useState('gemini-2.5-flash-lite');
     const [apiKey, setApiKey] = useState('');
     const [ selectedMode, setSelectedMode ] = useState('Assistant')
 

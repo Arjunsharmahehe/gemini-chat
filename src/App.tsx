@@ -8,28 +8,7 @@ import { useModelContext } from './context/ModelContext';
 import { aiModels, systemPrompts } from '../constants';
 import HistoryAndSave from './components/HistoryAndSave';
 import { TooltipProvider } from './components/ui/tooltip';
-
-export type MessageType = {
-  type: 'user' | 'assistant';
-  content: string;
-  timestamp: Date | string;
-  model?: string;
-  mode?: string;
-  thoughts?: string;
-}
-
-type ConfigType = {
-  responseMimeType: string;
-  thinkingConfig?: {
-    includeThoughts: boolean; // Optional, default is false
-    thinkingBudget: number;
-  };
-  systemInstruction: [
-    {
-        text: string
-    }
-  ]
-}
+import type { MessageType, ConfigType } from './types/types';
 
 
 function App() {
@@ -207,9 +186,9 @@ function App() {
 
           <div className='flex-1  max-h-screen overflow-y-auto px-2 pb-8 mt-2'>
             { messages.length === 0 ? <WelcomeScreen /> : messages?.map((message, index) => message.type === 'user' ? (
-              <UserMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef} />
+              <UserMessage key={index} content={message.content} chatEndRef={chatEndRef} />
             ) : (
-              <AssistantMessage key={index} content={message.content} model={message.model} timestamp={message.timestamp} chatEndRef={chatEndRef}
+              <AssistantMessage key={index} content={message.content} model={message.model} chatEndRef={chatEndRef}
               mode={message.mode as string} thoughts={message.thoughts as string} />
             ))}
           </div>

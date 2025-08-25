@@ -3,22 +3,24 @@ import type { Components } from 'react-markdown'
 import { useState } from 'react';
 import { Check, Copy, LucideSidebarClose } from "lucide-react";
 
-export default function AssistantMessage({ content, model, timestamp, chatEndRef, mode, thoughts }: { content: string; model?: string; timestamp: Date | string; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
+export default function AssistantMessage({ content, model, chatEndRef, mode, thoughts }: { content: string; model?: string; chatEndRef: React.RefObject<HTMLDivElement | null>; mode: string; thoughts: string }) {
 
     const markdownComponents: Components = {
-    h1: ({ node, ...props }) => <h1 className='text-xl font-bold mt-4 mb-3' {...props} />,
+    h1: ({ node, ...props }) => <h1 className='text-xl text-neutral-50 font-bold mt-4 mb-3' {...props} />,
 
-    h2: ({ node, ...props }) => <h2 className='text-lg font-medium mt-4 mb-2' {...props} />,
+    h2: ({ node, ...props }) => <h2 className='text-lg text-neutral-50 font-medium mt-4 mb-2' {...props} />,
 
-    p: ({ node, ...props }) => <p className='mb-2 text-sm font-normal' {...props} />,
+    h3: ({ node, ...props }) => <h3 className='text-sm text-neutral-50 font-semibold mt-2 mb-2' {...props} />,
 
-    ul: ({ node, ...props }) => <ul className='text-sm list-disc list-inside pl-4 mb-2' {...props} />,
+    p: ({ node, ...props }) => <p className='mb-2 text-sm text-neutral-300 font-normal' {...props} />,
 
-    ol: ({ node, ...props }) => <ol className='text-sm list-decimal list-inside pl-4 mb-2' {...props} />,
+    ul: ({ node, ...props }) => <ul className='text-sm text-neutral-300 list-disc list-inside pl-4 mb-2' {...props} />,
 
-    code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-800 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
+    ol: ({ node, ...props }) => <ol className='text-sm text-neutral-300 list-decimal list-inside pl-4 mb-2' {...props} />,
 
-    pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 rounded-md border-2 border-purple-950/50 p-3 my-2 overflow-x-auto' {...props} />,
+    code: ({ node, ...props }) => <code className='text-sm font-thin bg-neutral-900 text-neutral-300 rounded-sm px-1 py-[1px] font-mono' {...props} />,
+
+    pre: ({ node, ...props }) => <pre className='text-sm bg-neutral-900 text-neutral-300 rounded-md border-2 border-purple-950/50 p-3 my-2 overflow-x-auto' {...props} />,
   };
 
   const [ isCopied, setIsCopied ] = useState(false)
