@@ -55,6 +55,7 @@ export default function WelcomeScreen() {
                 <h1 className="text-3xl font-bold text-neutral-200 mb-2">Gemini Chat</h1>
                 <p>Select a model, enter your API key, and start chatting.</p>
                 <p className="text-sm">Get your API key from the <a href="https://aistudio.google.com/u/0/apikey" className="text-purple-800 hover:underline">AI Studio</a>.</p>
+                <p className="text-sm">Save it in <a href="/settings" className="text-purple-800 hover:underline">settings</a></p>
             </div>
             <div className="flex flex-col">
                 { modes.map((mode) => (
