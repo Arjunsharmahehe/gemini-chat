@@ -1,7 +1,7 @@
 import type { MessageType } from '@/types/types';
 import { useState } from 'react';
 import { useHistoryContext } from '../context/HistoryContext';
-import { ArrowUpRight, Bookmark, BookmarkCheck, ExternalLink, Plus, SidebarClose, SidebarOpen, Trash2 } from 'lucide-react';
+import { ArrowUpRight, Bookmark, BookmarkCheck, ExternalLink, Plus, Settings, SidebarClose, SidebarOpen, Trash2 } from 'lucide-react';
 import { type HistoryType } from "../context/HistoryContext";
 import { useModelContext } from "../context/ModelContext";
 
@@ -50,10 +50,20 @@ function DisplayHistory({ history, setMessages, setShowHistory, showHistory }: {
 
       <ShowHistory history={history} setMessages={setMessages} />
 
-      <div className='px-1 flex items-baseline justify-between'>
-        <a href="https://arjunsharmahehe.tech" className="text-neutral-600 hover:text-neutral-400 hover:underline">Arjun</a>
-        <a href="https://github.com/arjunsharmahehe/gemini-chat" className="flex items-center gap-1 text-neutral-600 hover:text-neutral-400 hover:underline">Github <ExternalLink className="size-3"/></a>
-      </div>
+      <div className='flex flex-col w-full gap-4'>
+        <a href='/settings' className="h-full flex flex-col gap-2 overflow-y-auto bg-neutral-900">
+          <div className="flex flex-col gap-1 overflow-y-auto h-full">
+            <div className='text-left text-sm items-center bg-neutral-800/30 hover:bg-neutral-800/80 px-2 py-1 rounded-md flex gap-2 w-full text-neutral-300'>
+              <Settings className="size-5 text-neutral-500"/>
+              <p className='w-full text-left'>Settings</p>
+            </div>
+          </div>
+        </a>
+        <div className='px-1 flex items-baseline justify-between'>
+          <a href="https://arjunsharmahehe.tech" className="text-neutral-600 hover:text-neutral-400 hover:underline">Arjun</a>
+          <a href="https://github.com/arjunsharmahehe/gemini-chat" className="flex items-center gap-1 text-neutral-600 hover:text-neutral-400 hover:underline">Github <ExternalLink className="size-3"/></a>
+        </div>
+        </div>
     </div>
 
   );

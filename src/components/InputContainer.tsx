@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { aiModels } from "../../constants";
-import { ArrowUp, Copy, Check } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useModelContext } from "../context/ModelContext";
 import { SelectGroup, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLabel } from "./ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
@@ -8,21 +8,21 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 export default function InputContainer({ value, onChange, onSubmit }: { value?: string; onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void; }) {
 
   const formRef = useRef<HTMLFormElement>(null);
-  const { selectedModel, setSelectedModel, apiKey, setApiKey, selectedMode, setSelectedMode } = useModelContext()
-  const [copied, setCopied] = useState(false);
+  const { selectedModel, setSelectedModel, apiKey, selectedMode, setSelectedMode } = useModelContext()
+  // const [copied, setCopied] = useState(false);
 
   // Copy API key to clipboard
-  const copyApiKey = async () => {
-    if (apiKey) {
-      try {
-        await navigator.clipboard.writeText(apiKey);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
-      } catch (err) {
-        console.error('Failed to copy API key:', err);
-      }
-    }
-  };
+  // const copyApiKey = async () => {
+  //   if (apiKey) {
+  //     try {
+  //       await navigator.clipboard.writeText(apiKey);
+  //       setCopied(true);
+  //       setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+  //     } catch (err) {
+  //       console.error('Failed to copy API key:', err);
+  //     }
+  //   }
+  // };
 
   // keydown handler function
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -112,14 +112,14 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
                 )}
 
                 {/* Desktop: API Key stays in the same row - Smaller width */}
-                <div className="hidden  sm:flex items-center gap-1 flex-shrink-0">
+                {/* <div className="hidden  sm:flex items-center gap-1 flex-shrink-0">
                   <input 
                     type='password' 
                     className='w-40 p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600 bg-neutral-950 border border-neutral-800 text-neutral-100 hover:border-neutral-700 focus:border-neutral-600' 
                     placeholder='API key' 
                     value={apiKey} 
                     onChange={(e) => setApiKey(e.target.value)} 
-                  />                  {/* Copy Button */}
+                  />             
                   {apiKey && (
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -137,20 +137,20 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
                     </Tooltip>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* Mobile: API Key Input on separate row */}
-              <div className="flex sm:hidden items-center gap-1">
+              {/* <div className="flex sm:hidden items-center gap-1">
                 <input 
                   type='password' 
                   className='flex-1 p-2 text-sm rounded outline-none focus:outline-none placeholder:text-neutral-600 bg-neutral-950 border border-neutral-800 text-neutral-100 hover:border-neutral-700 focus:border-neutral-600' 
                   placeholder='Enter API key' 
                   value={apiKey} 
                   onChange={(e) => setApiKey(e.target.value)} 
-                />
+                /> */}
                 
                 {/* Copy Button */}
-                {apiKey && (
+                {/* {apiKey && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
@@ -165,8 +165,8 @@ export default function InputContainer({ value, onChange, onSubmit }: { value?: 
                       <p className="text-xs">{copied ? 'Copied!' : 'Copy API key'}</p>
                     </TooltipContent>
                   </Tooltip>
-                )}
-              </div>
+                )}*/}
+              </div> 
 
             </div>
           </div>
